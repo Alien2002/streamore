@@ -1,0 +1,50 @@
+﻿<section id="testimonials">
+  <div class="testi-header" appReveal>
+    <div class="section-label centered">Client Testimonials</div>
+    <h2 class="section-title">Trusted by <em>Leaders</em></h2>
+  </div>
+
+  <div class="testi-carousel" appReveal [revealDelay]="100">
+    <div class="testi-track">
+      <div class="testi-slides" [style.transform]="translateX">
+        @for (t of testimonials; track t.name) {
+          <div class="testi-slide">
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-quote">{{ t.quote }}</p>
+            <div class="testi-author">
+              <img class="testi-avatar" [src]="t.avatar" [alt]="t.name" loading="lazy" />
+              <div>
+                <div class="testi-name">{{ t.name }}</div>
+                <div class="testi-role">{{ t.role }}</div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <button class="testi-nav testi-prev" (click)="prev()" aria-label="Previous testimonial">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M15 18 9 12 15 6" />
+      </svg>
+    </button>
+    <button class="testi-nav testi-next" (click)="next()" aria-label="Next testimonial">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M9 6 15 12 9 18" />
+      </svg>
+    </button>
+
+    <div class="testi-controls" role="tablist">
+      @for (t of testimonials; track t.name; let i = $index) {
+        <div
+          class="testi-dot"
+          [class.active]="current() === i"
+          (click)="goTo(i)"
+          role="tab"
+          [attr.aria-selected]="current() === i"
+          [attr.aria-label]="'Go to testimonial ' + (i + 1)"
+        ></div>
+      }
+    </div>
+  </div>
+</section>

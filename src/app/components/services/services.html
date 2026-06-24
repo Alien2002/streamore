@@ -1,0 +1,21 @@
+﻿<section id="services">
+  <div class="services-header" appReveal>
+    <div>
+      <div class="section-label">What We Do</div>
+      <h2 class="section-title">Our <em>Premium</em> Services</h2>
+    </div>
+    <!-- <a href="#booking" class="btn-outline">Get A Quote <i data-feather="arrow-right"></i></a> -->
+  </div>
+
+  <div class="services-grid">
+    @for (service of services; track service.num; let i = $index) {
+      <div class="service-card" appReveal [revealDelay]="(i % 3) * 100">
+        <div class="service-num">{{ service.num }}</div>
+        <div class="service-icon"><i [attr.data-feather]="service.icon"></i></div>
+        <div class="service-name">{{ service.name }}</div>
+        <p class="service-desc">{{ service.description }}</p>
+        <div class="service-card-border"></div>
+      </div>
+    }
+  </div>
+</section>

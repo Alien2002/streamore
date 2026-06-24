@@ -1,0 +1,39 @@
+.mobile-menu {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: var(--navy);
+  z-index: 800;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+
+  &.open { display: flex; }
+
+  a {
+    font-family: var(--font-head);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.1em;
+    transition: color 0.3s;
+    text-decoration: none;
+
+    &:hover { color: var(--gold); }
+    &.book-link { color: var(--gold); }
+  }
+}
+
+.close-btn {
+  position: absolute;
+  top: 1.5rem; right: 1.5rem;
+  font-size: 1.5rem;
+  color: var(--white);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s;
+
+  &:hover { color: var(--gold); }
+}

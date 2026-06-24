@@ -1,0 +1,1805 @@
+=====FILE: about.component.ts=====
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { RevealDirective } from '../../shared/directives/reveal.directive';
+import { CounterDirective } from '../../shared/directives/counter.directive';
+
+@Component({
+  selector: 'app-about',
+  standalone: true,
+  imports: [RevealDirective, CounterDirective],
+  templateUrl: './about.component.html',
+  styleUrl: './about.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class AboutComponent {
+  stats = [
+    { value: 100, suffix: '+', label: 'Projects Delivered' },
+    { value: 50,  suffix: '+', label: 'Livestream Productions' },
+    { value: 10000, suffix: '+', label: 'Audience Reach' },
+    { value: 5,  suffix: '+', label: 'Years Experience' },
+  ];
+}
+
+
+
+=====FILE: about.component.html=====
+<section id="about">
+  <div class="about-grid">
+
+    <div class="about-visual" appReveal>
+      <div class="about-gold-bar"></div>
+      <img
+        class="about-img-main"
+        src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=900&q=80"
+        alt="Professional event production team at work"
+        loading="lazy"
+      >
+      <img
+        class="about-img-secondary"
+        src="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=600&q=80"
+        alt="Podcast recording session"
+        loading="lazy"
+      >
+    </div>
+
+    <div class="about-text">
+      <div class="section-label" appReveal>Our Story</div>
+      <h2 class="section-title" appReveal [revealDelay]="100">
+        Creating Experiences <em>Through Media</em>
+      </h2>
+      <div class="gold-divider" appReveal [revealDelay]="200"></div>
+
+      <p appReveal [revealDelay]="200">
+        Streamore is a premium media production company specializing in livestreaming,
+        video production, photography, podcasts, and corporate storytelling. We help brands,
+        organizations, churches, and businesses connect with audiences through world-class
+        visual experiences.
+      </p>
+      <p appReveal [revealDelay]="200">
+        Founded with a passion for authentic African storytelling, we combine cutting-edge
+        technology with creative excellence to deliver productions that leave lasting impressions.
+        From intimate corporate portraits to large-scale multi-camera broadcasts, every project
+        receives our full creative commitment.
+      </p>
+
+      <div class="about-stats-grid" appReveal [revealDelay]="300">
+        @for (stat of stats; track stat.label) {
+          <div class="stat-card">
+            <div
+              class="stat-card-num"
+              appCounter
+              [counterTarget]="stat.value"
+              [counterSuffix]="stat.suffix"
+            >{{ stat.value }}{{ stat.suffix }}</div>
+            <div class="stat-card-label">{{ stat.label }}</div>
+          </div>
+        }
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+=====FILE: about.component.scss=====
+#about {
+  padding: 10rem 6%;
+  background: var(--navy);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  align-items: center;
+  max-width: 1300px;
+  margin: 0 auto;
+
+  @media (max-width: 1100px) {
+    grid-template-columns: 1fr;
+    gap: 4rem;
+  }
+}
+
+.about-visual {
+  position: relative;
+}
+
+.about-img-main {
+  width: 100%;
+  aspect-ratio: 4/5;
+  object-fit: cover;
+  border-radius: 2px;
+  filter: brightness(0.9);
+}
+
+.about-img-secondary {
+  position: absolute;
+  width: 55%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  bottom: -3rem;
+  right: -2rem;
+  border: 4px solid var(--navy);
+  border-radius: 2px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+
+  @media (max-width: 1100px) { display: none; }
+}
+
+.about-gold-bar {
+  position: absolute;
+  top: 3rem;
+  left: -1.5rem;
+  width: 4px;
+  height: 120px;
+  background: var(--gold);
+}
+
+.about-text {
+  max-width: 540px;
+
+  p {
+    color: var(--gray-dim);
+    line-height: 1.9;
+    margin-top: 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+.about-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.stat-card {
+  padding: 1.5rem;
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  background: rgba(212, 175, 55, 0.03);
+  transition: border-color 0.3s, background 0.3s;
+
+  &:hover {
+    border-color: rgba(212, 175, 55, 0.4);
+    background: rgba(212, 175, 55, 0.06);
+  }
+}
+
+.stat-card-num {
+  font-family: var(--font-head);
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.stat-card-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray-dim);
+  margin-top: 0.5rem;
+}
+
+
+
+=====FILE: hero.component.ts=====
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  signal,
+  computed,
+} from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+export interface HeroSlide {
+  src: string;
+  alt: string;
+  scene: string;
+}
+
+@Component({
+  selector: 'app-hero',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './hero.component.html',
+  styleUrl: './hero.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class HeroComponent implements OnInit, AfterViewInit, OnDestroy {
+  readonly SLIDE_DURATION = 7000;
+
+  slides: HeroSlide[] = [
+    { src: 'https://images.unsplash.com/photo-1601506521937-0121a7fc2a6b?w=1920&q=90', alt: 'Broadcast camera rig', scene: 'Broadcast Production' },
+    { src: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1920&q=90', alt: 'Live event stage lighting', scene: 'Live Event Coverage' },
+    { src: 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=1920&q=90', alt: 'Podcast studio microphone', scene: 'Podcast Studio' },
+    { src: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=1920&q=90', alt: 'Professional cinema camera', scene: 'Cinematic Capture' },
+    { src: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1920&q=90', alt: 'Conference hall', scene: 'Corporate Events' },
+    { src: 'https://images.unsplash.com/photo-1611348586804-61bf6c080437?w=1920&q=90', alt: 'Aerial city skyline', scene: 'Aerial Cinematography' },
+  ];
+
+  currentSlide = signal(0);
+  progressWidth = signal(0);
+
+  currentScene = computed(() => this.slides[this.currentSlide()].scene);
+  currentSceneNum = computed(() => {
+    const n = this.currentSlide() + 1;
+    return (n < 10 ? '0' + n : String(n)) + ' / 0' + this.slides.length;
+  });
+
+  private timer?: ReturnType<typeof setInterval>;
+  private progressTimer?: ReturnType<typeof setTimeout>;
+
+  /** Word reveal signals */
+  wordsRevealed = signal(false);
+  divider1Revealed = signal(false);
+  divider2Revealed = signal(false);
+
+  ngOnInit(): void {
+    this.startTimer();
+  }
+
+  ngAfterViewInit(): void {
+    this.scheduleWordReveals();
+  }
+
+  private scheduleWordReveals(): void {
+    // Trigger word animations via CSS classes on a schedule
+    const delays: Array<[string, number]> = [
+      ['divider1', 2860],
+      ['divider2', 3460],
+    ];
+    delays.forEach(([key, delay]) => {
+      setTimeout(() => {
+        if (key === 'divider1') this.divider1Revealed.set(true);
+        if (key === 'divider2') this.divider2Revealed.set(true);
+      }, delay);
+    });
+    setTimeout(() => this.wordsRevealed.set(true), 2280);
+  }
+
+  goToSlide(index: number): void {
+    this.currentSlide.set(index);
+    clearInterval(this.timer);
+    this.resetProgress();
+    this.startTimer();
+  }
+
+  private startTimer(): void {
+    this.resetProgress();
+    this.timer = setInterval(() => {
+      this.currentSlide.update(i => (i + 1) % this.slides.length);
+      this.resetProgress();
+    }, this.SLIDE_DURATION);
+  }
+
+  private resetProgress(): void {
+    this.progressWidth.set(0);
+    clearTimeout(this.progressTimer);
+    this.progressTimer = setTimeout(() => this.progressWidth.set(100), 50);
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.timer);
+    clearTimeout(this.progressTimer);
+  }
+}
+
+
+
+=====FILE: hero.component.html=====
+<section id="hero">
+
+  <!-- SLIDESHOW -->
+  <div class="hero-slideshow">
+    @for (slide of slides; track slide.src; let i = $index) {
+      <div class="hero-slide" [class.active]="currentSlide() === i">
+        <img [src]="slide.src" [alt]="slide.alt" [attr.loading]="i === 0 ? 'eager' : 'lazy'">
+      </div>
+    }
+
+    <div
+      class="hero-progress"
+      [style.width.%]="progressWidth()"
+      [style.transition-duration]="progressWidth() === 0 ? '0ms' : SLIDE_DURATION + 'ms'"
+    ></div>
+  </div>
+
+  <!-- Scene label -->
+  <div class="hero-slide-label">
+    <span class="hsl-num">{{ currentSceneNum() }}</span>
+    <span class="hsl-sep"></span>
+    <span class="hsl-text">{{ currentScene() }}</span>
+  </div>
+
+  <!-- Grid texture -->
+  <div class="hero-grid-overlay" aria-hidden="true"></div>
+
+  <!-- CONTENT -->
+  <div class="hero-content">
+
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      Premium Media Production &nbsp;—&nbsp; Africa
+    </div>
+
+    <!-- HEADLINE -->
+    <h1 class="hero-headline" [class.revealed]="wordsRevealed()">
+
+      <!-- Line 1: We Go LIVE. -->
+      <div class="hero-phrase">
+        <span class="hero-num-badge" style="--d:0ms">01</span>
+        <span class="hero-word w-we"     style="--d:40ms">We</span>
+        <span class="hero-word w-verb"   style="--d:120ms">Go</span>
+        <span class="hero-word w-action" style="--d:260ms">LIVE</span>
+        <span class="hero-dot-punct"     style="--d:460ms">.</span>
+      </div>
+
+      <div class="hero-divider-line" [class.revealed]="divider1Revealed()"></div>
+
+      <!-- Line 2: We Tell STORIES. -->
+      <div class="hero-phrase">
+        <span class="hero-num-badge" style="--d:580ms">02</span>
+        <span class="hero-word w-we"         style="--d:620ms">We</span>
+        <span class="hero-word w-verb"        style="--d:740ms">Tell</span>
+        <span class="hero-word w-serif-big"   style="--d:880ms">Stories</span>
+        <span class="hero-dot-punct"          style="--d:1080ms">.</span>
+      </div>
+
+      <div class="hero-divider-line" [class.revealed]="divider2Revealed()"></div>
+
+      <!-- Line 3: We Sell IDEAS. -->
+      <div class="hero-phrase">
+        <span class="hero-num-badge" style="--d:1200ms">03</span>
+        <span class="hero-word w-we"    style="--d:1240ms">We</span>
+        <span class="hero-word w-verb"  style="--d:1360ms">Sell</span>
+        <span class="hero-word w-ghost" style="--d:1500ms">IDEAS</span>
+        <span class="hero-dot-punct"   style="--d:1700ms">.</span>
+      </div>
+
+    </h1>
+
+    <p class="hero-sub">
+      Premium media production &nbsp;·&nbsp; Events &nbsp;·&nbsp; Businesses &nbsp;·&nbsp; Organizations &nbsp;·&nbsp; Brands
+    </p>
+
+    <div class="hero-btns">
+      <a href="#booking" class="btn-primary">
+        <span>Book A Project</span>
+        <span><i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+      <a href="#portfolio" class="btn-outline">
+        View Our Work <i class="fa-solid fa-arrow-up-right"></i>
+      </a>
+    </div>
+
+  </div>
+
+  <!-- Slide dots -->
+  <div class="hero-dots" role="tablist" aria-label="Slide navigation">
+    @for (slide of slides; track slide.src; let i = $index) {
+      <button
+        class="hero-dot"
+        [class.active]="currentSlide() === i"
+        [attr.aria-selected]="currentSlide() === i"
+        [attr.aria-label]="'Go to slide ' + (i + 1)"
+        (click)="goToSlide(i)"
+        role="tab"
+      ></button>
+    }
+  </div>
+
+  <!-- Stats -->
+  <div class="hero-stats" aria-label="Company statistics">
+    <div class="hero-stat-item">
+      <div class="hero-stat-num">100+</div>
+      <div class="hero-stat-label">Projects Delivered</div>
+    </div>
+    <div class="hero-stat-item">
+      <div class="hero-stat-num">50+</div>
+      <div class="hero-stat-label">Livestreams</div>
+    </div>
+    <div class="hero-stat-item">
+      <div class="hero-stat-num">10K+</div>
+      <div class="hero-stat-label">Audience Reach</div>
+    </div>
+  </div>
+
+  <!-- Scroll cue -->
+  <div class="hero-scroll" aria-hidden="true">
+    <div class="hero-scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+
+</section>
+
+
+
+=====FILE: hero.component.scss=====
+#hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+// ---- SLIDESHOW ----
+.hero-slideshow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(15,23,42,0.98) 0%, transparent 40%);
+    z-index: 1;
+    pointer-events: none;
+  }
+}
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 2s cubic-bezier(0.4,0,0.2,1);
+
+  &.active { opacity: 1; }
+
+  img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transform: scale(1.12);
+    transition: transform 8s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+
+  &.active img { transform: scale(1); }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to bottom, rgba(15,23,42,0.6) 0%, transparent 30%, transparent 60%, rgba(15,23,42,0.8) 100%),
+      linear-gradient(to right,  rgba(15,23,42,0.7) 0%, transparent 30%, transparent 70%, rgba(15,23,42,0.5) 100%);
+  }
+}
+
+.hero-progress {
+  position: absolute;
+  bottom: 0; left: 0;
+  height: 2px;
+  background: var(--gold);
+  width: 0%;
+  z-index: 10;
+  transition: width linear;
+}
+
+// ---- DOTS ----
+.hero-dots {
+  position: absolute;
+  bottom: 5.5rem;
+  right: 6%;
+  display: flex;
+  gap: 0.6rem;
+  z-index: 10;
+}
+
+.hero-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: background 0.3s, width 0.4s;
+  border: none;
+
+  &.active { background: var(--gold); width: 24px; border-radius: 3px; }
+}
+
+// ---- GRID OVERLAY ----
+.hero-grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(212,175,55,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212,175,55,0.03) 1px, transparent 1px);
+  background-size: 80px 80px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+// ---- SLIDE LABEL ----
+.hero-slide-label {
+  position: absolute;
+  bottom: 5.5rem;
+  left: 6%;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  animation: fadeUp 0.8s 3.5s both;
+}
+
+.hsl-num {
+  font-family: var(--font-head);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+}
+
+.hsl-sep {
+  display: block;
+  width: 32px; height: 1px;
+  background: rgba(212, 175, 55, 0.5);
+}
+
+.hsl-text {
+  font-family: var(--font-head);
+  font-size: 0.58rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  transition: opacity 0.4s;
+}
+
+// ---- CONTENT ----
+.hero-content {
+  position: relative;
+  z-index: 5;
+  padding: 0 6%;
+  width: 100%;
+  max-width: 1300px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+// ---- BADGE ----
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  background: rgba(212, 175, 55, 0.07);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  padding: 0.5rem 1.6rem 0.5rem 1rem;
+  border-radius: 100px;
+  font-family: var(--font-head);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  margin-bottom: 3rem;
+  animation: fadeUp 0.8s 2.2s both;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.08);
+}
+
+.hero-badge-dot {
+  width: 7px; height: 7px;
+  background: var(--gold);
+  border-radius: 50%;
+  animation: blink 1.4s infinite;
+  flex-shrink: 0;
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.8);
+}
+
+// ---- HEADLINE ----
+.hero-headline {
+  width: 100%;
+  margin-bottom: 2.8rem;
+  position: relative;
+}
+
+.hero-phrase {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.28em;
+  overflow: hidden;
+  line-height: 0.92;
+  padding: 0.06em 0;
+}
+
+// All animated words use CSS custom property --d for staggered delay
+.hero-word {
+  display: inline-block;
+  font-family: var(--font-head);
+  font-weight: 900;
+  font-size: clamp(3.5rem, 9.5vw, 10rem);
+  letter-spacing: -0.04em;
+  line-height: 0.92;
+  color: var(--white);
+  transform: translateY(115%) skewY(4deg);
+  opacity: 0;
+  transition:
+    transform 1.1s cubic-bezier(0.16,1,0.3,1),
+    opacity   0.9s cubic-bezier(0.16,1,0.3,1),
+    text-shadow 0.6s;
+  will-change: transform, opacity;
+
+  .hero-headline.revealed & {
+    transform: translateY(0) skewY(0deg);
+    opacity: 1;
+    transition-delay: var(--d, 0ms);
+  }
+}
+
+.hero-word.w-we {
+  font-size: clamp(2rem, 5vw, 5rem);
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  color: rgba(255, 255, 255, 0.55);
+  text-transform: uppercase;
+  align-self: flex-end;
+  padding-bottom: 0.15em;
+}
+
+.hero-word.w-action {
+  color: var(--gold);
+  font-size: clamp(4.5rem, 12vw, 13rem);
+  letter-spacing: -0.05em;
+  text-shadow: 0 0 80px rgba(212, 175, 55, 0.25);
+
+  .hero-headline.revealed & {
+    text-shadow: 0 0 120px rgba(212, 175, 55, 0.35), 0 0 40px rgba(212, 175, 55, 0.2);
+  }
+}
+
+.hero-word.w-serif-big {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(4rem, 11vw, 12rem);
+  letter-spacing: 0.01em;
+}
+
+.hero-word.w-ghost {
+  -webkit-text-stroke: 1.5px rgba(212, 175, 55, 0.7);
+  color: transparent;
+  font-size: clamp(4.5rem, 12vw, 13rem);
+  letter-spacing: -0.04em;
+
+  .hero-headline.revealed & {
+    -webkit-text-stroke: 1.5px var(--gold);
+  }
+}
+
+.hero-word.w-verb {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: clamp(3.5rem, 9.5vw, 10rem);
+}
+
+.hero-dot-punct {
+  display: inline-block;
+  color: var(--gold);
+  font-family: var(--font-head);
+  font-weight: 900;
+  font-size: clamp(4rem, 10vw, 11rem);
+  line-height: 0.92;
+  transform: translateY(115%);
+  opacity: 0;
+  transition: transform 0.8s cubic-bezier(0.16,1,0.3,1), opacity 0.7s;
+  text-shadow: 0 0 40px rgba(212, 175, 55, 0.6);
+
+  .hero-headline.revealed & {
+    transform: translateY(0);
+    opacity: 1;
+    transition-delay: var(--d, 0ms);
+  }
+}
+
+.hero-num-badge {
+  display: inline-block;
+  font-family: var(--font-head);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: rgba(212, 175, 55, 0.5);
+  align-self: flex-start;
+  padding-top: 0.6em;
+  transform: translateY(200%);
+  opacity: 0;
+  transition: transform 1s cubic-bezier(0.16,1,0.3,1), opacity 0.8s;
+  margin: 0 0.3em;
+
+  .hero-headline.revealed & {
+    transform: translateY(0);
+    opacity: 1;
+    transition-delay: var(--d, 0ms);
+  }
+}
+
+// ---- DIVIDER ----
+.hero-divider-line {
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212,175,55,0.7) 40%, var(--gold) 50%, rgba(212,175,55,0.7) 60%, transparent);
+  margin: 0.5rem auto;
+  transition: width 1.2s cubic-bezier(0.16,1,0.3,1);
+
+  &.revealed { width: 340px; }
+}
+
+// ---- SUB ----
+.hero-sub {
+  font-family: var(--font-head);
+  font-size: clamp(0.65rem, 1.3vw, 0.82rem);
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+  max-width: 600px;
+  line-height: 2.4;
+  animation: fadeUp 0.9s 4.2s both;
+  margin-bottom: 3rem;
+  position: relative;
+
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px; height: 1px;
+    background: rgba(212, 175, 55, 0.3);
+  }
+  &::before { top: 0; }
+  &::after  { bottom: 0; }
+}
+
+// ---- BUTTONS ----
+.hero-btns {
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  animation: fadeUp 0.9s 4.4s both;
+  justify-content: center;
+}
+
+.btn-primary, .btn-outline { cursor: pointer; }
+
+// ---- STATS ----
+.hero-stats {
+  position: absolute;
+  bottom: 8vh;
+  right: 6%;
+  z-index: 2;
+  display: flex;
+  gap: 2.5rem;
+  animation: fadeUp 0.9s 3s both;
+}
+
+.hero-stat-item { text-align: right; }
+
+.hero-stat-num {
+  font-family: var(--font-head);
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.hero-stat-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gray-dim);
+  margin-top: 0.3rem;
+}
+
+// ---- SCROLL CUE ----
+.hero-scroll {
+  position: absolute;
+  bottom: 2.5rem;
+  right: 6%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  animation: fadeUp 1s 3.2s both;
+}
+
+.hero-scroll span {
+  font-family: var(--font-head);
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gray-dim);
+  writing-mode: vertical-rl;
+}
+
+.hero-scroll-line {
+  width: 1px; height: 60px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  animation: scrollPulse 2s infinite;
+}
+
+// ---- ANIMATIONS ----
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.15; }
+}
+@keyframes scrollPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+// ---- RESPONSIVE ----
+@media (max-width: 768px) {
+  .hero-stats { display: none; }
+  .hero-btns  { flex-direction: column; }
+}
+
+
+
+=====FILE: services.component.ts=====
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { RevealDirective } from '../../shared/directives/reveal.directive';
+
+export interface Service {
+  num: string;
+  icon: string;
+  name: string;
+  description: string;
+}
+
+@Component({
+  selector: 'app-services',
+  standalone: true,
+  imports: [RevealDirective],
+  templateUrl: './services.component.html',
+  styleUrl: './services.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class ServicesComponent {
+  services: Service[] = [
+    {
+      num: '01', icon: 'fa-solid fa-video',
+      name: 'Livestream Production',
+      description: 'Multi-camera live streaming for churches, conferences, concerts, weddings, and corporate events. Crystal-clear HD/4K broadcast to all major platforms simultaneously.',
+    },
+    {
+      num: '02', icon: 'fa-solid fa-film',
+      name: 'Video Production',
+      description: 'Commercials, documentaries, interviews, corporate videos, and promotional content. Cinematic storytelling from concept to final cut with full post-production.',
+    },
+    {
+      num: '03', icon: 'fa-solid fa-camera',
+      name: 'Photography',
+      description: 'Events, corporate portraits, branding, conferences, and special occasions. Editorial-quality imagery that captures the authentic energy of your brand and people.',
+    },
+    {
+      num: '04', icon: 'fa-solid fa-microphone',
+      name: 'Podcast Production',
+      description: 'Audio and video podcast recording, editing, distribution, and branding. Full-service studio setup for thought leaders, businesses, and media personalities.',
+    },
+    {
+      num: '05', icon: 'fa-solid fa-calendar-star',
+      name: 'Event Coverage',
+      description: 'Professional multi-photographer coverage for weddings, conferences, product launches, award ceremonies, and corporate galas. Comprehensive documentary-style storytelling.',
+    },
+    {
+      num: '06', icon: 'fa-solid fa-sparkles',
+      name: 'Content Creation',
+      description: 'Monthly content packages for businesses and brands. Social media reels, behind-the-scenes, brand films, and campaign content to keep your audience engaged year-round.',
+    },
+  ];
+}
+
+
+
+=====FILE: services.component.html=====
+<section id="services">
+  <div class="services-header" appReveal>
+    <div>
+      <div class="section-label">What We Do</div>
+      <h2 class="section-title">Our <em>Premium</em> Services</h2>
+    </div>
+    <a href="#booking" class="btn-outline">Get A Quote <i class="fa-solid fa-arrow-right"></i></a>
+  </div>
+
+  <div class="services-grid">
+    @for (service of services; track service.num; let i = $index) {
+      <div class="service-card" appReveal [revealDelay]="(i % 3) * 100">
+        <div class="service-num">{{ service.num }}</div>
+        <div class="service-icon"><i [class]="service.icon"></i></div>
+        <div class="service-name">{{ service.name }}</div>
+        <p class="service-desc">{{ service.description }}</p>
+        <div class="service-card-border"></div>
+      </div>
+    }
+  </div>
+</section>
+
+
+
+=====FILE: services.component.scss=====
+#services {
+  padding: 10rem 6%;
+  background: var(--navy-mid);
+  position: relative;
+
+  &::before {
+    content: 'SERVICES';
+    position: absolute;
+    top: 4rem; right: 5%;
+    font-family: var(--font-head);
+    font-size: 8rem;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.02);
+    letter-spacing: 0.2em;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+}
+
+.services-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 5rem;
+  max-width: 1300px;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 2rem;
+    align-items: flex-start;
+  }
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  max-width: 1300px;
+  margin: 0 auto;
+
+  @media (max-width: 1100px) { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 768px)  { grid-template-columns: 1fr; }
+}
+
+.service-card {
+  background: var(--navy);
+  padding: 3rem 2.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s var(--transition);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(212,175,55,0.06), transparent);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    &::before { opacity: 1; }
+    .service-card-border { transform: scaleX(1); }
+    .service-icon {
+      background: rgba(212,175,55,0.1);
+      border-color: var(--gold);
+    }
+  }
+}
+
+.service-card-border {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s var(--transition);
+}
+
+.service-icon {
+  width: 52px; height: 52px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  margin-bottom: 2rem;
+  transition: background 0.3s, border-color 0.3s;
+  color: var(--gold);
+}
+
+.service-num {
+  position: absolute;
+  top: 2rem; right: 2rem;
+  font-family: var(--font-head);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: rgba(212, 175, 55, 0.3);
+}
+
+.service-name {
+  font-family: var(--font-head);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 1rem;
+  letter-spacing: 0.02em;
+}
+
+.service-desc {
+  font-size: 0.875rem;
+  color: var(--gray-dim);
+  line-height: 1.8;
+}
+
+
+
+=====FILE: portfolio.component.ts=====
+import { Component, ChangeDetectionStrategy, signal, computed } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RevealDirective } from '../../shared/directives/reveal.directive';
+
+export interface PortfolioItem {
+  src: string;
+  alt: string;
+  category: string;
+  title: string;
+  filter: string;
+}
+
+type FilterKey = 'all' | 'livestream' | 'corporate' | 'conference' | 'wedding' | 'commercial' | 'podcast';
+
+@Component({
+  selector: 'app-portfolio',
+  standalone: true,
+  imports: [CommonModule, RevealDirective],
+  templateUrl: './portfolio.component.html',
+  styleUrl: './portfolio.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class PortfolioComponent {
+  activeFilter = signal<FilterKey>('all');
+
+  filters: Array<{ key: FilterKey; label: string }> = [
+    { key: 'all',        label: 'All Work' },
+    { key: 'livestream', label: 'Livestreams' },
+    { key: 'corporate',  label: 'Corporate Events' },
+    { key: 'conference', label: 'Conferences' },
+    { key: 'wedding',    label: 'Weddings' },
+    { key: 'commercial', label: 'Commercials' },
+    { key: 'podcast',    label: 'Podcasts' },
+  ];
+
+  items: PortfolioItem[] = [
+    { src: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1200&q=80', alt: 'Large scale conference livestream', category: 'Livestream Production', title: 'Annual Business Summit 2024', filter: 'livestream' },
+    { src: 'https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&q=80',  alt: 'Corporate event coverage', category: 'Corporate Event', title: 'CEO Awards Gala', filter: 'corporate' },
+    { src: 'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=800&q=80',  alt: 'Podcast studio recording', category: 'Podcast Production', title: 'The Leadership Series', filter: 'podcast' },
+    { src: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=800&q=80',  alt: 'Conference photography', category: 'Conference', title: 'Tech Africa Summit', filter: 'conference' },
+    { src: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80',  alt: 'Wedding photography', category: 'Wedding Coverage', title: 'The Mwangi — Amara Wedding', filter: 'wedding' },
+    { src: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&q=80',  alt: 'Commercial video production', category: 'Commercial', title: 'EcoBank Brand Film 2024', filter: 'commercial' },
+  ];
+
+  isHidden(item: PortfolioItem): boolean {
+    const filter = this.activeFilter();
+    return filter !== 'all' && item.filter !== filter;
+  }
+
+  setFilter(key: FilterKey): void {
+    this.activeFilter.set(key);
+  }
+}
+
+
+
+=====FILE: portfolio.component.html=====
+<section id="portfolio">
+  <div class="portfolio-header">
+    <div class="section-label centered" appReveal>Featured Work</div>
+    <h2 class="section-title" appReveal [revealDelay]="100">Our <em>Creative</em> Portfolio</h2>
+  </div>
+
+  <div class="portfolio-filters" appReveal [revealDelay]="200" role="tablist" aria-label="Portfolio filters">
+    @for (f of filters; track f.key) {
+      <button
+        class="filter-btn"
+        [class.active]="activeFilter() === f.key"
+        (click)="setFilter(f.key)"
+        role="tab"
+        [attr.aria-selected]="activeFilter() === f.key"
+      >{{ f.label }}</button>
+    }
+  </div>
+
+  <div class="portfolio-grid">
+    @for (item of items; track item.title; let i = $index) {
+      <div
+        class="port-item"
+        appReveal
+        [revealDelay]="i * 50"
+        [class.hidden]="isHidden(item)"
+      >
+        <img [src]="item.src" [alt]="item.alt" loading="lazy">
+        <div class="port-overlay">
+          <div class="port-category">{{ item.category }}</div>
+          <div class="port-title">{{ item.title }}</div>
+        </div>
+        <div class="port-arrow"><i class="fa-solid fa-arrow-up-right"></i></div>
+      </div>
+    }
+  </div>
+</section>
+
+
+
+=====FILE: portfolio.component.scss=====
+#portfolio {
+  padding: 10rem 6%;
+  background: var(--navy);
+}
+
+.portfolio-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.portfolio-filters {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+
+.filter-btn {
+  font-family: var(--font-head);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gray-dim);
+  padding: 0.5rem 1.4rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
+  transition: all 0.3s var(--transition);
+  cursor: pointer;
+  background: none;
+
+  &.active, &:hover {
+    color: var(--gold);
+    border-color: var(--gold);
+    background: rgba(212, 175, 55, 0.08);
+  }
+}
+
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 4px;
+  max-width: 1400px;
+  margin: 0 auto;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.port-item {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: opacity 0.4s, transform 0.4s;
+
+  &:nth-child(1) { grid-column: span 7; grid-row: span 2; }
+  &:nth-child(2) { grid-column: span 5; }
+  &:nth-child(3) { grid-column: span 5; }
+  &:nth-child(4) { grid-column: span 4; }
+  &:nth-child(5) { grid-column: span 4; }
+  &:nth-child(6) { grid-column: span 4; }
+
+  @media (max-width: 768px) {
+    &:nth-child(n) { grid-column: span 1 !important; grid-row: span 1 !important; }
+  }
+
+  &.hidden {
+    opacity: 0.15;
+    transform: scale(0.98);
+  }
+
+  img {
+    width: 100%; height: 100%;
+    min-height: 300px;
+    object-fit: cover;
+    transition: transform 0.7s var(--transition), filter 0.5s;
+    filter: brightness(0.75);
+    display: block;
+  }
+
+  &:hover img { transform: scale(1.06); filter: brightness(0.5); }
+}
+
+.port-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 2rem;
+  background: linear-gradient(to top, rgba(15,23,42,0.9) 0%, transparent 60%);
+}
+
+.port-category {
+  font-family: var(--font-head);
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.4rem;
+}
+
+.port-title {
+  font-family: var(--font-head);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--white);
+
+  .port-item:nth-child(1) & { font-size: 1.5rem; }
+}
+
+.port-arrow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.5);
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--navy);
+  font-size: 1.2rem;
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s var(--transition);
+
+  .port-item:hover & {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+
+
+=====FILE: why.component.ts=====
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { RevealDirective } from '../../shared/directives/reveal.directive';
+
+@Component({
+  selector: 'app-why',
+  standalone: true,
+  imports: [RevealDirective],
+  templateUrl: './why.component.html',
+  styleUrl: './why.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class WhyComponent {
+  cards = [
+    {
+      icon: 'fa-solid fa-sliders',
+      title: 'Professional Equipment',
+      desc: 'Sony FX series, DJI drones, Blackmagic switchers, Sennheiser audio, and industry-standard production systems for broadcast-quality output every time.',
+    },
+    {
+      icon: 'fa-solid fa-users',
+      title: 'Reliable Team',
+      desc: 'Experienced professionals with backgrounds in broadcast television, film, and corporate production. We arrive prepared and deliver excellence under pressure.',
+    },
+    {
+      icon: 'fa-solid fa-lightbulb',
+      title: 'Creative Storytelling',
+      desc: 'We create content that connects emotionally and converts commercially. Rooted in African identity, our storytelling resonates with global audiences.',
+    },
+    {
+      icon: 'fa-solid fa-arrows-rotate',
+      title: 'End-to-End Production',
+      desc: 'From pre-production planning and scripting to live execution and post-production delivery — one team, zero handoff confusion, full accountability.',
+    },
+  ];
+}
+
+
+
+=====FILE: why.component.html=====
+<section id="why">
+  <div class="section-label centered" appReveal>
+    <span class="line"></span>Why Streamore<span class="line"></span>
+  </div>
+  <h2 class="section-title" appReveal [revealDelay]="100" style="margin-top:.5rem">
+    The Streamore <em>Difference</em>
+  </h2>
+  <p class="section-subtitle centered-sub" appReveal [revealDelay]="200">
+    We don't just produce content — we craft experiences that move audiences and accelerate brands.
+  </p>
+
+  <div class="why-grid" appReveal [revealDelay]="200">
+    @for (card of cards; track card.title) {
+      <div class="why-card">
+        <span class="why-icon"><i [class]="card.icon"></i></span>
+        <div class="why-title">{{ card.title }}</div>
+        <p class="why-desc">{{ card.desc }}</p>
+      </div>
+    }
+  </div>
+</section>
+
+
+
+=====FILE: why.component.scss=====
+#why {
+  padding: 10rem 6%;
+  background: var(--navy-mid);
+  text-align: center;
+}
+
+.centered-sub {
+  margin: 1rem auto 0;
+  text-align: center;
+}
+
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-top: 5rem;
+  max-width: 1300px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid rgba(212, 175, 55, 0.1);
+
+  @media (max-width: 1100px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.why-card {
+  padding: 3rem 2rem;
+  border-right: 1px solid rgba(212, 175, 55, 0.1);
+  transition: background 0.4s;
+  position: relative;
+
+  &:last-child { border-right: none; }
+  &:hover { background: rgba(212, 175, 55, 0.04); }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transition: transform 0.4s var(--transition);
+  }
+  &:hover::after { transform: scaleX(1); }
+
+  @media (max-width: 1100px) {
+    border-right: none;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    &:last-child { border-bottom: none; }
+  }
+}
+
+.why-icon {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  display: block;
+  color: var(--gold);
+}
+
+.why-title {
+  font-family: var(--font-head);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 1rem;
+  letter-spacing: 0.05em;
+}
+
+.why-desc {
+  font-size: 0.85rem;
+  color: var(--gray-dim);
+  line-height: 1.8;
+}
+
+.line {
+  display: block;
+  width: 32px; height: 1px;
+  background: var(--gold);
+}
+
+
+
+=====FILE: testimonials.component.ts=====
+import {
+  Component,
+  ChangeDetectionStrategy,
+  signal,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import { RevealDirective } from '../../shared/directives/reveal.directive';
+
+export interface Testimonial {
+  quote: string;
+  name: string;
+  role: string;
+  avatar: string;
+}
+
+@Component({
+  selector: 'app-testimonials',
+  standalone: true,
+  imports: [RevealDirective],
+  templateUrl: './testimonials.component.html',
+  styleUrl: './testimonials.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class TestimonialsComponent implements OnInit, OnDestroy {
+  current = signal(0);
+  private timer?: ReturnType<typeof setInterval>;
+
+  testimonials: Testimonial[] = [
+    {
+      quote: '"Streamore transformed our annual conference into a world-class production. The livestream quality rivaled what I\'ve seen on international broadcast networks. Our virtual attendees couldn\'t believe it was a local production team. Absolutely exceptional."',
+      name: 'Dr. Kwame Asante',
+      role: 'CEO, Pan-African Business Forum',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80',
+    },
+    {
+      quote: '"We hired Streamore for our church\'s Easter Sunday service livestream and the results were beyond our expectations. The team was professional, punctual, and the production quality made our congregation feel like they were watching a major network broadcast."',
+      name: 'Pastor Grace Muthoni',
+      role: 'Lead Pastor, Nairobi Restoration Church',
+      avatar: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200&q=80',
+    },
+    {
+      quote: '"The podcast production package from Streamore completely elevated our brand. The studio setup, sound quality, and the video editing were all top-tier. We went from 200 to 15,000 listeners in three months. The production quality makes all the difference."',
+      name: 'Amir Osei',
+      role: 'Host, The African Entrepreneur Podcast',
+      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&q=80',
+    },
+    {
+      quote: '"Our product launch was covered by Streamore and the photographs and video they delivered were stunning. The brand film they produced has been viewed over 200,000 times on social media. These people understand African aesthetics and modern production perfectly."',
+      name: 'Fatima Al-Hassan',
+      role: 'Marketing Director, Zuri Fashion Group',
+      avatar: 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=200&q=80',
+    },
+  ];
+
+  get translateX(): string {
+    return `translateX(-${this.current() * 100}%)`;
+  }
+
+  ngOnInit(): void {
+    this.timer = setInterval(() => this.next(), 6000);
+  }
+
+  prev(): void { this.current.update(i => (i - 1 + this.testimonials.length) % this.testimonials.length); }
+  next(): void { this.current.update(i => (i + 1) % this.testimonials.length); }
+  goTo(i: number): void { this.current.set(i); }
+
+  ngOnDestroy(): void { clearInterval(this.timer); }
+}
+
+
+
+=====FILE: testimonials.component.html=====
+<section id="testimonials">
+  <div class="testi-header" appReveal>
+    <div class="section-label centered">Client Testimonials</div>
+    <h2 class="section-title">Trusted by <em>Leaders</em></h2>
+  </div>
+
+  <div class="testi-carousel" appReveal [revealDelay]="100">
+    <div class="testi-track">
+      <div class="testi-slides" [style.transform]="translateX">
+        @for (t of testimonials; track t.name) {
+          <div class="testi-slide">
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-quote">{{ t.quote }}</p>
+            <div class="testi-author">
+              <img class="testi-avatar" [src]="t.avatar" [alt]="t.name" loading="lazy">
+              <div>
+                <div class="testi-name">{{ t.name }}</div>
+                <div class="testi-role">{{ t.role }}</div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <button class="testi-nav testi-prev" (click)="prev()" aria-label="Previous testimonial">
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+    <button class="testi-nav testi-next" (click)="next()" aria-label="Next testimonial">
+      <i class="fa-solid fa-arrow-right"></i>
+    </button>
+
+    <div class="testi-controls" role="tablist">
+      @for (t of testimonials; track t.name; let i = $index) {
+        <div
+          class="testi-dot"
+          [class.active]="current() === i"
+          (click)="goTo(i)"
+          role="tab"
+          [attr.aria-selected]="current() === i"
+          [attr.aria-label]="'Go to testimonial ' + (i + 1)"
+        ></div>
+      }
+    </div>
+  </div>
+</section>
+
+
+
+=====FILE: testimonials.component.scss=====
+#testimonials {
+  padding: 10rem 6%;
+  background: linear-gradient(135deg, var(--navy-mid) 0%, var(--navy) 100%);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '"';
+    position: absolute;
+    top: 3rem; left: 5%;
+    font-family: var(--font-serif);
+    font-size: 20rem;
+    color: rgba(212, 175, 55, 0.04);
+    line-height: 1;
+    pointer-events: none;
+  }
+}
+
+.testi-carousel {
+  max-width: 800px;
+  margin: 4rem auto 0;
+  position: relative;
+}
+
+.testi-track { overflow: hidden; }
+
+.testi-slides {
+  display: flex;
+  transition: transform 0.6s var(--transition);
+}
+
+.testi-slide {
+  min-width: 100%;
+  padding: 0 1rem;
+}
+
+.testi-stars {
+  color: var(--gold);
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.1em;
+}
+
+.testi-quote {
+  font-family: var(--font-serif);
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--white);
+  line-height: 1.7;
+  margin-bottom: 2.5rem;
+}
+
+.testi-author {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.testi-avatar {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--gold);
+  filter: brightness(0.9);
+}
+
+.testi-name {
+  font-family: var(--font-head);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--white);
+  text-align: left;
+}
+
+.testi-role {
+  font-size: 0.7rem;
+  color: var(--gold);
+  text-align: left;
+  margin-top: 0.2rem;
+}
+
+.testi-controls {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;
+  margin-top: 3rem;
+}
+
+.testi-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(212, 175, 55, 0.3);
+  cursor: pointer;
+  transition: background 0.3s, width 0.3s;
+
+  &.active { background: var(--gold); width: 24px; border-radius: 4px; }
+}
+
+.testi-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px; height: 44px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 1rem;
+  background: none;
+
+  &:hover { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+
+  &.testi-prev { left: -3rem; }
+  &.testi-next { right: -3rem; }
+
+  @media (max-width: 1100px) {
+    &.testi-prev { left: 0; }
+    &.testi-next { right: 0; }
+  }
+
+  @media (max-width: 480px) { display: none; }
+}
+
+
+
+=====FILE: reveal.directive.ts=====
+import {
+  Directive,
+  ElementRef,
+  OnInit,
+  OnDestroy,
+  inject,
+  Input,
+} from '@angular/core';
+
+@Directive({
+  selector: '[appReveal]',
+  standalone: true,
+})
+export class RevealDirective implements OnInit, OnDestroy {
+  @Input() revealDelay = 0;
+
+  private el = inject(ElementRef<HTMLElement>);
+  private observer!: IntersectionObserver;
+
+  ngOnInit(): void {
+    const nativeEl: HTMLElement = this.el.nativeElement;
+    nativeEl.classList.add('reveal');
+    if (this.revealDelay > 0) {
+      nativeEl.style.transitionDelay = `${this.revealDelay}ms`;
+    }
+
+    this.observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            nativeEl.classList.add('visible');
+            this.observer.unobserve(nativeEl);
+          }
+        });
+      },
+      { threshold: 0.1 },
+    );
+    this.observer.observe(nativeEl);
+  }
+
+  ngOnDestroy(): void {
+    this.observer?.disconnect();
+  }
+}
+
+
+
+=====FILE: counter.directive.ts=====
+import {
+  Directive,
+  ElementRef,
+  Input,
+  OnInit,
+  OnDestroy,
+  inject,
+} from '@angular/core';
+
+@Directive({
+  selector: '[appCounter]',
+  standalone: true,
+})
+export class CounterDirective implements OnInit, OnDestroy {
+  @Input() counterTarget = 0;
+  @Input() counterSuffix = '';
+  @Input() counterDuration = 2000;
+
+  private el = inject(ElementRef<HTMLElement>);
+  private observer!: IntersectionObserver;
+  private started = false;
+
+  ngOnInit(): void {
+    this.observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !this.started) {
+            this.started = true;
+            this.animate();
+            this.observer.unobserve(this.el.nativeElement);
+          }
+        });
+      },
+      { threshold: 0.5 },
+    );
+    this.observer.observe(this.el.nativeElement);
+  }
+
+  private animate(): void {
+    let startTs: number | null = null;
+    const el = this.el.nativeElement;
+    const step = (ts: number) => {
+      if (!startTs) startTs = ts;
+      const progress = Math.min((ts - startTs) / this.counterDuration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(eased * this.counterTarget) + this.counterSuffix;
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  ngOnDestroy(): void {
+    this.observer?.disconnect();
+  }
+}
+
+
+

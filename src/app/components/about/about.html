@@ -1,0 +1,56 @@
+﻿<section id="about">
+  <div class="about-grid">
+
+    <div class="about-visual" appReveal>
+      <div class="about-gold-bar"></div>
+      <img
+        class="about-img-main"
+        src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=900&q=80"
+        alt="Professional event production team at work"
+        loading="lazy"
+      >
+      <img
+        class="about-img-secondary"
+        src="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=600&q=80"
+        alt="Podcast recording session"
+        loading="lazy"
+      >
+    </div>
+
+    <div class="about-text">
+      <div class="section-label" appReveal>Our Story</div>
+      <h2 class="section-title" appReveal [revealDelay]="100">
+        Creating Experiences <em>Through Media</em>
+      </h2>
+      <div class="gold-divider" appReveal [revealDelay]="200"></div>
+
+      <p appReveal [revealDelay]="200">
+        Streamore is a premium media production company specializing in livestreaming,
+        video production, photography, podcasts, and corporate storytelling. We help brands,
+        organizations, churches, and businesses connect with audiences through world-class
+        visual experiences.
+      </p>
+      <!-- <p appReveal [revealDelay]="200">
+        Founded with a passion for authentic African storytelling, we combine cutting-edge
+        technology with creative excellence to deliver productions that leave lasting impressions.
+        From intimate corporate portraits to large-scale multi-camera broadcasts, every project
+        receives our full creative commitment.
+      </p> -->
+
+      <div class="about-stats-grid" appReveal [revealDelay]="300">
+        @for (stat of stats; track stat.label) {
+          <div class="stat-card">
+            <div
+              class="stat-card-num"
+              appCounter
+              [counterTarget]="stat.value"
+              [counterSuffix]="stat.suffix"
+            >{{ stat.value }}{{ stat.suffix }}</div>
+            <div class="stat-card-label">{{ stat.label }}</div>
+          </div>
+        }
+      </div>
+    </div>
+
+  </div>
+</section>

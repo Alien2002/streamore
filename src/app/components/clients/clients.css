@@ -1,0 +1,167 @@
+/* ============================================
+   CLIENTS SECTION
+============================================ */
+#clients {
+  padding: 4rem 6%;
+  background: var(--navy-mid);
+  overflow: hidden;
+  position: relative;
+}
+#clients::before {
+  position: absolute;
+  top: 3rem; right: 4%;
+  font-family: var(--font-head);
+  font-size: 7rem;
+  font-weight: 900;
+  color: rgba(255,255,255,0.018);
+  letter-spacing: 0.2em;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.clients-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.clients-header .section-label { justify-content: center; }
+.clients-header .section-label::before { display: none; }
+.clients-header .section-label::after {
+  content: ''; display: block;
+  width: 32px; height: 1px;
+  background: var(--gold);
+}
+
+/* MARQUEE TICKER (auto-scroll behind the grid) */
+.clients-ticker-wrap {
+  position: absolute;
+  bottom: 2rem; left: 0; right: 0;
+  overflow: hidden;
+  opacity: 0.04;
+  pointer-events: none;
+}
+.clients-ticker {
+  display: flex;
+  gap: 3rem;
+  white-space: nowrap;
+  animation: ticker 30s linear infinite;
+  font-family: var(--font-head);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* LOGO GRID */
+.clients-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 2px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.client-logo-cell {
+  position: relative;
+  border: 1px solid rgba(255,255,255,0.04);
+  background: rgba(255,255,255,0.02);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.4rem 2rem;
+  aspect-ratio: 2.5 / 1;
+  overflow: hidden;
+  transition: background 0.4s, border-color 0.4s;
+  cursor: default;
+}
+.client-logo-cell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(212,175,55,0.05), transparent);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.client-logo-cell:hover {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(212,175,55,0.15);
+  z-index: 1;
+}
+.client-logo-cell:hover::before { opacity: 1; }
+
+/* the SVG/img logo itself */
+.client-logo {
+  max-width: 120px;
+  max-height: 44px;
+  width: auto;
+  height: auto;
+  /* grayscale + faded by default */
+  filter: grayscale(1) brightness(2.5) opacity(0.35);
+  transition: filter 0.5s cubic-bezier(0.4,0,0.2,1), transform 0.4s cubic-bezier(0.4,0,0.2,1);
+  display: block;
+}
+.client-logo-cell:hover .client-logo {
+  filter: grayscale(0) brightness(1) opacity(1);
+  transform: scale(1.08);
+}
+
+/* tooltip label under logo on hover */
+.client-logo-name {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  font-family: var(--font-head);
+  font-size: 0.48rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+}
+.client-logo-cell:hover .client-logo-name {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* gold corner accent on hover */
+.client-logo-cell::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 0; height: 0;
+  border-top: 2px solid transparent;
+  border-left: 2px solid transparent;
+  transition: width 0.4s, height 0.4s, border-color 0.4s;
+}
+.client-logo-cell:hover::after {
+  width: 20px; height: 20px;
+  border-color: var(--gold);
+}
+
+/* bottom CTA */
+.clients-cta {
+  text-align: center;
+  margin-top: 4rem;
+}
+.clients-cta p {
+  font-family: var(--font-head);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gray-dim);
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .clients-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 540px) {
+  .clients-grid { grid-template-columns: repeat(2, 1fr); }
+  .client-logo-cell { padding: 1.8rem 1.2rem; }
+}

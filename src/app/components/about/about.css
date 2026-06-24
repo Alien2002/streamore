@@ -1,0 +1,119 @@
+﻿#about {
+  padding: 4rem 6%;
+  background: var(--navy);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  align-items: center;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+@media (max-width: 1100px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 4rem;
+  }
+}
+
+.about-visual {
+  position: relative;
+}
+
+.about-img-main {
+  width: 100%;
+  aspect-ratio: 4/5;
+  object-fit: cover;
+  border-radius: 2px;
+  filter: brightness(0.9);
+  max-height: 70vh;
+}
+
+.about-img-secondary {
+  position: absolute;
+  width: 55%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  bottom: -3rem;
+  right: -2rem;
+  border: 4px solid var(--navy);
+  border-radius: 2px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 1100px) {
+  .about-img-secondary {
+    display: none;
+  }
+}
+
+.about-gold-bar {
+  position: absolute;
+  top: 3rem;
+  left: -1.5rem;
+  width: 4px;
+  height: 120px;
+  background: var(--gold);
+}
+
+.about-text {
+  max-width: 540px;
+}
+
+@media (max-width: 1100px) {
+  .about-text {
+    max-width: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding: 0 2rem;
+  }
+}
+
+.about-text p {
+  color: var(--gray-dim);
+  line-height: 1.9;
+  margin-top: 1.5rem;
+  font-size: 1rem;
+}
+
+.about-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.stat-card {
+  padding: 1.5rem;
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  background: rgba(212, 175, 55, 0.03);
+  transition:
+    border-color 0.3s,
+    background 0.3s;
+}
+
+.stat-card:hover {
+  border-color: rgba(212, 175, 55, 0.4);
+  background: rgba(212, 175, 55, 0.06);
+}
+
+.stat-card-num {
+  font-family: var(--font-head);
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.stat-card-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray-dim);
+  margin-top: 0.5rem;
+}

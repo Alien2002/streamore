@@ -1,1 +1,122 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --navy:        #0F172A;
+  --navy-mid:    #1E293B;
+  --navy-light:  #334155;
+  --gold:        #D4AF37;
+  --gold-light:  #E8C96A;
+  --gold-dark:   #B8961F;
+  --white:       #FFFFFF;
+  --gray-light:  #F8FAFC;
+  --gray-mid:    #CBD5E1;
+  --gray-dim:    #94A3B8;
+  --text-body:   #E2E8F0;
+
+  --font-head:   'Montserrat', sans-serif;
+  --font-serif:  'Cormorant Garamond', serif;
+  --font-body:   'Inter', sans-serif;
+
+  --transition:  cubic-bezier(0.4, 0, 0.2, 1);
+  --glow:        0 0 40px rgba(212, 175, 55, 0.15);
+}
+
+
+
+/* ============================================
+   SECTION UTILITIES
+============================================ */
+section { position: relative; overflow: hidden; }
+.section-label {
+  font-family: var(--font-head);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.section-label::before {
+  content: '';
+  display: block;
+  width: 32px; height: 1px;
+  background: var(--gold);
+}
+.section-title {
+  font-family: var(--font-head);
+  font-size: clamp(2rem, 5vw, 3.8rem);
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--white);
+  letter-spacing: -0.02em;
+}
+.section-title em {
+  font-style: italic;
+  font-family: var(--font-serif);
+  color: var(--gold);
+  font-size: 1.15em;
+  font-weight: 300;
+}
+.section-subtitle {
+  font-size: 1rem;
+  color: var(--gray-dim);
+  max-width: 520px;
+  line-height: 1.8;
+  margin-top: 1.2rem;
+}
+
+/* Buttons */
+.hero-btns {
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.9s 4.4s forwards;
+  justify-content: center;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  background: var(--gold);
+  color: var(--navy);
+  font-family: var(--font-head);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 1rem 2rem;
+  border-radius: 2px;
+  transition: all 0.3s var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gold-light);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s var(--transition);
+}
+.btn-primary:hover::before { transform: scaleX(1); }
+.btn-primary:hover { box-shadow: 0 8px 32px rgba(212,175,55,0.4); transform: translateY(-2px); }
+.btn-primary span { position: relative; z-index: 1; }
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  border: 1px solid rgba(255,255,255,0.3);
+  color: var(--white);
+  font-family: var(--font-head);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 1rem 2rem;
+  border-radius: 2px;
+  transition: all 0.3s var(--transition);
+}
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); }

@@ -1,0 +1,21 @@
+﻿<section id="why">
+  <div class="section-label centered" appReveal>
+    Why Streamore
+  </div>
+  <h2 class="section-title" appReveal [revealDelay]="100" style="margin-top:.5rem">
+    The Streamore <em>Difference</em>
+  </h2>
+  <p class="section-subtitle centered-sub" appReveal [revealDelay]="200">
+    We don't just produce content — we craft experiences that move audiences and accelerate brands.
+  </p>
+
+  <div class="why-grid" appReveal [revealDelay]="200">
+    @for (card of cards; track card.title) {
+      <div class="why-card">
+        <span class="why-icon"><i [class]="card.icon"></i></span>
+        <div class="why-title">{{ card.title }}</div>
+        <p class="why-desc">{{ card.desc }}</p>
+      </div>
+    }
+  </div>
+</section>

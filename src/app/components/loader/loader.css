@@ -1,0 +1,46 @@
+.loader {
+  position: fixed;
+  inset: 0;
+  background: var(--navy);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+
+  &.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+.loader-logo {
+  font-family: var(--font-head);
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: 0.3em;
+  color: var(--white);
+  margin-bottom: 2rem;
+
+  span { color: var(--gold); }
+}
+
+.loader-bar {
+  width: 200px;
+  height: 1px;
+  background: var(--navy-light);
+  overflow: hidden;
+}
+
+.loader-bar-fill {
+  height: 100%;
+  background: var(--gold);
+  width: 0%;
+  animation: loadFill 2s ease forwards;
+}
+
+@keyframes loadFill {
+  to { width: 100%; }
+}

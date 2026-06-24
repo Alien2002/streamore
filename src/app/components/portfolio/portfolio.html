@@ -1,0 +1,36 @@
+﻿<section id="portfolio">
+  <div class="portfolio-header">
+    <div class="section-label centered" appReveal>Featured Work</div>
+    <h2 class="section-title" appReveal [revealDelay]="100">Our <em>Creative</em> Portfolio</h2>
+  </div>
+
+  <div class="portfolio-filters" appReveal [revealDelay]="200" role="tablist" aria-label="Portfolio filters">
+    @for (f of filters; track f.key) {
+      <button
+        class="filter-btn"
+        [class.active]="activeFilter() === f.key"
+        (click)="setFilter(f.key)"
+        role="tab"
+        [attr.aria-selected]="activeFilter() === f.key"
+      >{{ f.label }}</button>
+    }
+  </div>
+
+  <div class="portfolio-grid">
+    @for (item of items; track item.title; let i = $index) {
+      <div
+        class="port-item"
+        appReveal
+        [revealDelay]="i * 50"
+        [class.hidden]="isHidden(item)"
+      >
+        <img [src]="item.src" [alt]="item.alt" loading="lazy">
+        <div class="port-overlay">
+          <div class="port-category">{{ item.category }}</div>
+          <div class="port-title">{{ item.title }}</div>
+        </div>
+        <div class="port-arrow"><i class="fa-solid fa-arrow-up-right"></i></div>
+      </div>
+    }
+  </div>
+</section>

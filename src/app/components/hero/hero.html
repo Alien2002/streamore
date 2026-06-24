@@ -1,0 +1,128 @@
+﻿<section id="hero">
+
+  <!-- SLIDESHOW -->
+  <div class="hero-slideshow">
+    @for (slide of slides; track slide.src; let i = $index) {
+      <div class="hero-slide" [class.active]="currentSlide() === i">
+        <img [src]="slide.src" [alt]="slide.alt" [attr.loading]="i === 0 ? 'eager' : 'lazy'">
+      </div>
+    }
+
+    <div
+      class="hero-progress"
+      [style.width.%]="progressWidth()"
+      [style.transition-duration]="progressWidth() === 0 ? '0ms' : SLIDE_DURATION + 'ms'"
+    ></div>
+  </div>
+
+  <!-- Scene label -->
+  <div class="hero-slide-label">
+    <span class="hsl-num">{{ currentSceneNum() }}</span>
+    <span class="hsl-sep"></span>
+    <span class="hsl-text">{{ currentScene() }}</span>
+  </div>
+
+  <!-- Grid texture -->
+  <div class="hero-grid-overlay" aria-hidden="true"></div>
+
+  <!-- CONTENT -->
+  <div class="hero-content">
+
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      Premium Media Production &nbsp;—&nbsp; Africa
+    </div>
+
+    <!-- HEADLINE -->
+    <h1 class="hero-headline" [class.revealed]="wordsRevealed()">
+
+      <!-- Line 1: We Go LIVE. -->
+      <div class="hero-phrase">
+        <span class="hero-num-badge" style="--d:0ms">01</span>
+        <span class="hero-word w-we"     style="--d:40ms">We</span>
+        <span class="hero-word w-verb"   style="--d:120ms">Go</span>
+        <span class="hero-word w-action" style="--d:260ms">LIVE</span>
+        <span class="hero-dot-punct"     style="--d:460ms">.</span>
+      </div>
+
+      <div class="hero-divider-line" [class.revealed]="divider1Revealed()"></div>
+
+      <!-- Line 2: We Tell STORIES. -->
+      <div class="hero-phrase">
+        <span class="hero-num-badge" style="--d:580ms">02</span>
+        <span class="hero-word w-we"         style="--d:620ms">We</span>
+        <span class="hero-word w-verb"        style="--d:740ms">Tell</span>
+        <span class="hero-word w-serif-big"   style="--d:880ms">Stories</span>
+        <span class="hero-dot-punct"          style="--d:1080ms">.</span>
+      </div>
+
+      <div class="hero-divider-line" [class.revealed]="divider2Revealed()"></div>
+
+      <!-- Line 3: We Sell IDEAS. -->
+      <div class="hero-phrase">
+        <span class="hero-num-badge" style="--d:1200ms">03</span>
+        <span class="hero-word w-we"    style="--d:1240ms">We</span>
+        <span class="hero-word w-verb"  style="--d:1360ms">Sell</span>
+        <span class="hero-word w-ghost" style="--d:1500ms">IDEAS</span>
+        <span class="hero-dot-punct"   style="--d:1700ms">.</span>
+      </div>
+
+    </h1>
+
+      <p class="hero-sub">
+        Premium media production &nbsp;·&nbsp; Events &nbsp;·&nbsp; Businesses &nbsp;·&nbsp; Organizations &nbsp;·&nbsp; Brands
+      </p>
+
+    <!-- <div class="hero-btns">
+      <a href="#booking" class="btn-primary">
+        <span>Book A Project</span>
+        <span><i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+      <a href="#portfolio" class="btn-outline">
+        View Our Work <i class="fa-solid fa-arrow-up-right"></i>
+      </a>
+    </div> -->
+
+  </div>
+
+  <p class="hero-sub-small">
+    Premium media production &nbsp;·&nbsp; Events &nbsp;·&nbsp; Businesses &nbsp;·&nbsp; Organizations &nbsp;·&nbsp; Brands
+  </p>
+
+  <!-- Slide dots -->
+  <div class="hero-dots" role="tablist" aria-label="Slide navigation">
+    @for (slide of slides; track slide.src; let i = $index) {
+      <button
+        class="hero-dot"
+        [class.active]="currentSlide() === i"
+        [attr.aria-selected]="currentSlide() === i"
+        [attr.aria-label]="'Go to slide ' + (i + 1)"
+        (click)="goToSlide(i)"
+        role="tab"
+      ></button>
+    }
+  </div>
+
+  <!-- Stats -->
+  <!-- <div class="hero-stats" aria-label="Company statistics">
+    <div class="hero-stat-item">
+      <div class="hero-stat-num">100+</div>
+      <div class="hero-stat-label">Projects Delivered</div>
+    </div>
+    <div class="hero-stat-item">
+      <div class="hero-stat-num">50+</div>
+      <div class="hero-stat-label">Livestreams</div>
+    </div>
+    <div class="hero-stat-item">
+      <div class="hero-stat-num">10K+</div>
+      <div class="hero-stat-label">Audience Reach</div>
+    </div>
+  </div> -->
+
+  <!-- Scroll cue -->
+  <div class="hero-scroll" aria-hidden="true">
+    <div class="hero-scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+
+</section>

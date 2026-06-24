@@ -1,0 +1,15 @@
+<div class="mobile-menu" [class.open]="menuService.isOpen()">
+  <button class="close-btn" (click)="close()" aria-label="Close Menu">
+    <i class="fa-solid fa-xmark"></i>
+  </button>
+
+  <a href="#about"         (click)="close()">About</a>
+  <a href="#broadcast"     (click)="close()">Broadcast</a>
+  <a href="#services"      (click)="close()">Services</a>
+  <a href="#portfolio"     (click)="close()">Work</a>
+  <a href="#livestream"    (click)="close()">Livestream</a>
+  <a href="#testimonials"  (click)="close()">Testimonials</a>
+  <a href="#clients"       (click)="close()">Our Clients</a>
+  <a href="#contact"       (click)="close()">Contact</a>
+  <a href="#booking"       (click)="close()" class="book-link">Book A Project</a>
+</div>

@@ -1,0 +1,138 @@
+<section id="broadcast">
+  <div class="broadcast-inner">
+
+    <!-- Header -->
+    <div class="broadcast-header reveal">
+      <div>
+        <div class="section-label">Live Broadcast</div>
+        <h2 class="section-title">Watch <em>Streamore</em> Productions</h2>
+        <p class="section-subtitle">
+          Browse and play any video from our YouTube channel. Switch between productions instantly — your live broadcast control room.
+        </p>
+      </div>
+      <div class="broadcast-live-pill">
+        <span class="broadcast-live-dot"></span>
+        Streamore Channel
+      </div>
+    </div>
+
+    <!-- Layout -->
+    <div class="broadcast-layout reveal reveal-delay-1">
+
+      <!-- Player -->
+      <div>
+        <div class="broadcast-player-wrap">
+
+          <div class="broadcast-hud">
+            <span class="hud-channel">STREAMORE &nbsp;·&nbsp; @streamore</span>
+            <span class="hud-live">
+              <span class="hud-live-dot"></span>PLAYING
+            </span>
+          </div>
+
+          <div class="broadcast-iframe-box">
+            <iframe
+              [src]="embedUrl()"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+              title="Streamore YouTube Channel Player"
+            ></iframe>
+          </div>
+
+          <div class="broadcast-info-bar">
+            <div class="broadcast-now-info">
+              <div class="broadcast-now-label">Now Playing</div>
+              <div class="broadcast-now-title">
+                {{ activeVideo().title }}
+              </div>
+            </div>
+            <a
+              href="http://www.youtube.com/@streamore"
+              target="_blank"
+              rel="noopener"
+              class="broadcast-yt-link"
+            >
+              <i class="fa-brands fa-youtube"></i>
+              Open on YouTube
+            </a>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="broadcast-actions">
+          <a href="http://www.youtube.com/@streamore" target="_blank" rel="noopener" class="broadcast-channel-pill">
+            <i class="fa-brands fa-youtube"></i>
+            Subscribe to @streamore
+          </a>
+          <a href="https://www.instagram.com/streamore/" target="_blank" rel="noopener" class="broadcast-channel-pill broadcast-channel-pill--instagram">
+            <i class="fa-brands fa-instagram"></i>
+            Follow on Instagram
+          </a>
+          <span class="broadcast-hint">Click any video in the playlist to switch →</span>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="broadcast-sidebar">
+        <div class="playlist-header">
+          Playlist
+          <span class="playlist-count">
+            @if (loading()) { Loading… }
+            @else if (hasFailed()) { Channel }
+            @else { {{ videos().length }} videos }
+          </span>
+        </div>
+
+        <!-- Loading state -->
+        @if (loading()) {
+          <div class="playlist-loading">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+            Fetching videos…
+          </div>
+        }
+
+        <!-- Fallback state -->
+        @else if (hasFailed()) {
+          <div class="playlist-fallback-msg">
+            <i class="fa-brands fa-youtube"></i>
+            Browse all Streamore videos directly on YouTube.
+            <a href="http://www.youtube.com/@streamore" target="_blank" rel="noopener">
+              View Full Channel →
+            </a>
+          </div>
+        }
+
+        <!-- Playlist items -->
+        @else {
+          @for (video of videos(); track trackByVideoId($index, video); let i = $index) {
+            <div
+              class="playlist-item"
+              [class.active]="activeIdx() === i"
+              (click)="selectVideo(i)"
+            >
+              <div class="playlist-thumb-wrap">
+                <img
+                  class="playlist-thumb"
+                  [src]="video.thumb"
+                  [alt]="video.title"
+                  loading="lazy"
+                  (error)="$any($event.target).src = 'https://i.ytimg.com/vi/' + video.videoId + '/default.jpg'"
+                />
+                <div class="playlist-thumb-play">
+                  <i class="fa-solid fa-play"></i>
+                </div>
+              </div>
+              <div class="playlist-meta">
+                <div class="playlist-title">{{ video.title }}</div>
+                <div class="playlist-date">{{ video.dateStr }}</div>
+              </div>
+              <span class="playlist-num">{{ (i + 1).toString().padStart(2, '0') }}</span>
+            </div>
+          }
+        }
+      </div>
+
+    </div>
+  </div>
+</section>
